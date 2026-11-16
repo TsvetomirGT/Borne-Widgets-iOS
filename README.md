@@ -37,6 +37,22 @@ Borne isn't on the App Store. You can build it yourself or sideload the IPA, and
 
 **Build from source.** See [Running on your iPhone](#running-on-your-iphone) below. You'll need a Mac with Xcode.
 
+### Installing with Sideloadly
+
+[Sideloadly](https://sideloadly.io) runs on macOS and Windows and installs the IPA over USB:
+
+1. Install Sideloadly on your computer. On Windows, also install iTunes and iCloud from Apple's website (not the Microsoft Store versions), as the Sideloadly site describes.
+2. Download [`Borne.ipa`](../../releases/latest/download/Borne.ipa) from the latest release.
+3. Connect your iPhone with a cable, unlock it and tap **Trust** if it asks about the computer.
+4. Open Sideloadly. Pick your iPhone in **iDevice** and drag `Borne.ipa` onto the IPA icon.
+5. Enter your Apple ID in **Apple account**. A free account works. Leave the advanced options at their defaults; in particular, don't turn on removing app extensions, or the widgets won't be installed.
+6. Click **Start** and enter your Apple ID password, then the two-factor code when asked. Sideloadly signs and installs the app.
+7. On the iPhone, trust your Apple ID as a developer: Settings → General → VPN & Device Management → your Apple ID → **Trust**.
+8. Turn on Developer Mode if iOS asks (Settings → Privacy & Security → Developer Mode), then restart when prompted.
+9. Open Borne once, grant the permissions you want (location, calendar), then add widgets from the home screen.
+
+To renew the app before it expires after 7 days, run the same steps again with the same Apple ID. Your settings are kept. Recent Sideloadly versions can also refresh apps automatically over Wi-Fi while the computer is on; see the Sideloadly docs.
+
 Free Apple ID limits, either way:
 
 - **The app expires after 7 days.** Refresh it in AltStore or SideStore (they can do it automatically), or rebuild from Xcode. If it expires, the app and its widgets stop working until you refresh it. Your settings are kept.
