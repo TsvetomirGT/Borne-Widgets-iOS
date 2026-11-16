@@ -4,15 +4,25 @@ import os
 /// Shared storage between the app and the widget extension.
 ///
 /// The group identifier comes from the `BorneAppGroup` Info.plist key, which
-/// XcodeGen fills from `BUNDLE_PREFIX`. When it is missing or the container is
-/// unavailable (unit tests, misconfigured signing) we fall back to local
-/// storage so nothing crashes; app and widgets just won't share data.
+/// XcodeGen fills from `BUNDLE_PREFIX`. Sideloading tools (AltStore, SideStore)
+/// re-sign the app with the user's own team, which renames the group; they
+/// record the new identifier under `ALTAppGroups`, so that wins when present.
+/// When no group is configured or the container is unavailable (unit tests,
+/// misconfigured signing) we fall back to local storage so nothing crashes;
+/// app and widgets just won't share data.
 public enum AppGroup {
     private static let log = Logger(subsystem: "BorneWidgets", category: "AppGroup")
 
     public static var identifier: String? {
-        guard let id = Bundle.main.object(forInfoDictionaryKey: "BorneAppGroup") as? String,
-              !id.isEmpty else { return nil }
+        identifier(in: Bundle.main.infoDictionary ?? [:])
+    }
+
+    /// Picks the App Group from an Info.plist dictionary. Pure, for tests.
+    static func identifier(in info: [String: Any]) -> String? {
+        if let rewritten = (info["ALTAppGroups"] as? [String])?.first(where: { !$0.isEmpty }) {
+            return rewritten
+        }
+        guard let id = info["BorneAppGroup"] as? String, !id.isEmpty else { return nil }
         return id
     }
 
