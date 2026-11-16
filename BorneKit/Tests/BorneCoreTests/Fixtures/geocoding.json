@@ -1,0 +1,8 @@
+{
+  "results": [
+    {"id": 727011, "name": "Sofia", "latitude": 42.69751, "longitude": 23.32415,
+     "country": "Bulgaria", "admin1": "Sofia-Capital", "timezone": "Europe/Sofia"},
+    {"id": 1, "name": "Sofia", "latitude": -20.0, "longitude": 47.0,
+     "country": "Madagascar", "timezone": "Indian/Antananarivo"}
+  ]
+}

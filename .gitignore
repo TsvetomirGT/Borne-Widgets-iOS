@@ -1,0 +1,19 @@
+# Xcode / XcodeGen
+*.xcodeproj
+DerivedData/
+xcuserdata/
+*.xcuserstate
+build/
+
+# SwiftPM
+.build/
+.swiftpm/
+
+# Local config (team id, bundle prefix)
+Config/Local.xcconfig
+
+# macOS
+.DS_Store
+
+# Agent scratch
+.superpowers/

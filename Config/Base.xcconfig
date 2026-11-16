@@ -1,0 +1,7 @@
+// Shared build settings. Override locally in Config/Local.xcconfig (gitignored).
+BUNDLE_PREFIX = dev.borne
+DEVELOPMENT_TEAM =
+CODE_SIGN_STYLE = Automatic
+APP_GROUP_ID = group.$(BUNDLE_PREFIX).bornewidgets
+
+#include? "Local.xcconfig"
