@@ -33,7 +33,7 @@ The first style is **Editorial**: serif numerals, small-caps labels, hairline ru
 
 Borne isn't on the App Store. You can build it yourself or sideload the IPA, and both work with a free Apple ID.
 
-**Sideload the IPA.** Download `Borne.ipa` from [Releases](../../releases) and install it with [AltStore](https://altstore.io) (the classic version, not PAL), [SideStore](https://sidestore.io) or [Sideloadly](https://sideloadly.io). These tools re-sign the app with your Apple ID. AltStore and SideStore also keep the app and its widgets sharing data. Sideloadly may not, in which case the widgets can't see your settings or the weather cache.
+**Sideload the IPA.** Download [`Borne.ipa`](../../releases/latest/download/Borne.ipa) from the [latest release](../../releases/latest) and install it with [AltStore](https://altstore.io) (the classic version, not PAL), [SideStore](https://sidestore.io) or [Sideloadly](https://sideloadly.io). These tools re-sign the app with your Apple ID. AltStore and SideStore also keep the app and its widgets sharing data. Sideloadly may not, in which case the widgets can't see your settings or the weather cache.
 
 **Build from source.** See [Running on your iPhone](#running-on-your-iphone) below. You'll need a Mac with Xcode.
 
@@ -44,6 +44,8 @@ Free Apple ID limits, either way:
 - **Developer Mode must be on**: Settings → Privacy & Security → Developer Mode.
 
 To build the IPA yourself: `./release-ipa.sh` writes `.build/Borne.ipa`. It's ad-hoc signed with the public `dev.borne` identifiers and needs no developer account.
+
+Releases are automated: pushing a tag like `v0.2.0` runs the tests, builds the IPA and publishes it as a GitHub release (`.github/workflows/release.yml`). Tags with a hyphen, like `v0.2.0-beta.1`, become pre-releases.
 
 ## Requirements
 

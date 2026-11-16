@@ -1,0 +1,57 @@
+# Builds a sideloadable IPA and publishes it as a GitHub release.
+#
+# Trigger: push a version tag, e.g.
+#   git tag v0.2.0 && git push origin v0.2.0
+# The tag (minus the "v") becomes the app version; the workflow run number
+# becomes the build number. Tags with a hyphen (v0.2.0-beta.1) are published
+# as pre-releases.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write # create the release and upload the IPA
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    # Xcode 27 / iOS 27 SDK image (see actions/runner-images#14404).
+    runs-on: xcode-27
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Show toolchain
+        run: xcodebuild -version && swift --version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Test
+        run: swift test --package-path BorneKit
+
+      - name: Build IPA
+        env:
+          BUILD: ${{ github.run_number }}
+        run: VERSION="${GITHUB_REF_NAME#v}" ./release-ipa.sh
+
+      - name: Keep build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: archive-log
+          path: .build/release/archive.log
+          if-no-files-found: ignore
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=(--generate-notes --verify-tag --title "Borne ${GITHUB_REF_NAME}")
+          [[ "$GITHUB_REF_NAME" == *-* ]] && flags+=(--prerelease)
+          gh release create "$GITHUB_REF_NAME" .build/Borne.ipa "${flags[@]}"

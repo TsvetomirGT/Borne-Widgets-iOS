@@ -9,6 +9,8 @@
 # Local.xcconfig, so personal identifiers don't end up in a published build.
 #
 # Usage: ./release-ipa.sh            -> .build/Borne.ipa
+#   VERSION=0.2.0 BUILD=7 ./release-ipa.sh   overrides MARKETING_VERSION /
+#   CURRENT_PROJECT_VERSION from project.yml (used by the release workflow).
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -16,6 +18,9 @@ PREFIX=dev.borne
 GROUP="group.$PREFIX.bornewidgets"
 OUT=.build/release
 ARCHIVE="$OUT/Borne.xcarchive"
+VERSION_ARGS=()
+[[ -n "${VERSION:-}" ]] && VERSION_ARGS+=("MARKETING_VERSION=$VERSION")
+[[ -n "${BUILD:-}" ]] && VERSION_ARGS+=("CURRENT_PROJECT_VERSION=$BUILD")
 
 rm -rf "$OUT" && mkdir -p "$OUT"
 xcodegen --quiet
@@ -26,6 +31,7 @@ xcodebuild -project BorneWidgets.xcodeproj -scheme BorneWidgets \
   -archivePath "$ARCHIVE" -derivedDataPath .build/dd-release archive \
   BUNDLE_PREFIX="$PREFIX" DEVELOPMENT_TEAM= \
   CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= \
+  ${VERSION_ARGS[@]+"${VERSION_ARGS[@]}"} \
   > "$OUT/archive.log" 2>&1 \
   || { grep -E "error:" "$OUT/archive.log" | sort -u | head -30; echo "** ARCHIVE FAILED **"; exit 1; }
 
@@ -56,5 +62,5 @@ cp -R "$APP" "$OUT/ipa/Payload/"
 (cd "$OUT/ipa" && zip -qry ../../Borne.ipa Payload)
 rm -rf "$OUT/ipa"
 
-VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$APP/Info.plist")
-echo "** IPA READY ** .build/Borne.ipa (version $VERSION, $(du -h .build/Borne.ipa | cut -f1))"
+BUILT=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" -c "Print CFBundleVersion" "$APP/Info.plist" | paste -sd ' ' -)
+echo "** IPA READY ** .build/Borne.ipa (version ${BUILT/ / build }, $(du -h .build/Borne.ipa | cut -f1))"

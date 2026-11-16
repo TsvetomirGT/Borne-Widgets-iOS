@@ -33,6 +33,8 @@ targets:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: Borne
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         BorneAppGroup: $(APP_GROUP_ID)
         UILaunchScreen: {}
         UIApplicationSceneManifest:
@@ -71,6 +73,8 @@ targets:
       path: WidgetExtension/Info.plist
       properties:
         CFBundleDisplayName: Borne Widgets
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         BorneAppGroup: $(APP_GROUP_ID)
         NSCalendarsFullAccessUsageDescription: Borne shows your upcoming events in its Calendar widgets.
         NSExtension:
