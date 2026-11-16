@@ -29,6 +29,22 @@ The first style is **Editorial**: serif numerals, small-caps labels, hairline ru
 | Editorial Sun & Moon | sun arc + moon phase + golden hour | – | – |
 | Editorial Calendar (+ full-page on iOS 27) | date + next event | date, this week, next three events | month grid + today's events; full page adds a 7-day agenda |
 
+## Install
+
+Borne isn't on the App Store. You can build it yourself or sideload the IPA, and both work with a free Apple ID.
+
+**Sideload the IPA.** Download `Borne.ipa` from [Releases](../../releases) and install it with [AltStore](https://altstore.io) (the classic version, not PAL), [SideStore](https://sidestore.io) or [Sideloadly](https://sideloadly.io). These tools re-sign the app with your Apple ID. AltStore and SideStore also keep the app and its widgets sharing data. Sideloadly may not, in which case the widgets can't see your settings or the weather cache.
+
+**Build from source.** See [Running on your iPhone](#running-on-your-iphone) below. You'll need a Mac with Xcode.
+
+Free Apple ID limits, either way:
+
+- **The app expires after 7 days.** Refresh it in AltStore or SideStore (they can do it automatically), or rebuild from Xcode. If it expires, the app and its widgets stop working until you refresh it. Your settings are kept.
+- **Only 3 sideloaded apps can be active at once, and the widget extension counts as one.** Borne takes 2 slots. With AltStore or SideStore itself taking the third, nothing else fits.
+- **Developer Mode must be on**: Settings → Privacy & Security → Developer Mode.
+
+To build the IPA yourself: `./release-ipa.sh` writes `.build/Borne.ipa`. It's ad-hoc signed with the public `dev.borne` identifiers and needs no developer account.
+
 ## Requirements
 
 - Xcode 27 or newer, iOS 26 or newer
